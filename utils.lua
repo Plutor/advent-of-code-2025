@@ -1,5 +1,17 @@
 
 function loadDataArray(filename, lineValueFunc)
+  return dataArray(fromFile(filename), lineValueFunc)
+end
+
+function dataArray(input, lineValueFunc)
+  local d = {}
+  for _,v in ipairs(input) do
+    table.insert(d, lineValueFunc(v))
+  end
+  return d
+end
+
+function fromFile(filename)
   local d = {}
   -- Load file
   local f = assert(io.open(filename, "r"))
@@ -9,10 +21,18 @@ function loadDataArray(filename, lineValueFunc)
     if s == nil then
       return d
     end
-    -- Call lineValueFunc() with each line string
-    table.insert(d, lineValueFunc(s))
+    table.insert(d, s)
   end
   return d
+end
+
+function fromHeredoc(s)
+  -- From https://stackoverflow.com/questions/72298718/split-a-string-on-new-lines-but-include-empty-lines
+  local result = {};
+  for line in string.gmatch(s .. "\n", "(.-)\n") do
+      table.insert(result, line);
+  end
+  return result
 end
 
 function asStr(lineStr)
