@@ -20,7 +20,32 @@ function part1(input)
 end
 
 function part2(input)
-  return #input
+  local ops = asArrayOfNumbersOrStrs(table.remove(input, #input))
+  local sum = 0
+  local r = 0
+  -- Add a column of spaces to the beginning to make this easier
+  for row = 1, #input do
+    input[row] = " " .. input[row]
+  end
+  for col = #input[1], 1, -1 do
+    local v = ""
+    for row = 1, #input do
+      v = v .. string.sub(input[row], col, col)
+    end
+    local num = tonumber(v:match("([0-9]+)"))
+    if num == nil then
+      sum = sum + r
+      table.remove(ops, #ops)
+      r = 0
+    elseif r == 0 then
+      r = num
+    elseif ops[#ops] == "+" then
+      r = r + num
+    else
+      r = r * num
+    end
+  end
+  return sum
 end
 
 function asArrayOfNumbersOrStrs(line)
@@ -42,8 +67,14 @@ sample = dataArray(fromHeredoc([[
   6 98  215 314
 *   +   *   +  ]]), asArrayOfNumbersOrStrs)
 data = dataArray(fromFile("data/day6"), asArrayOfNumbersOrStrs)
-
 print("Part 1, sample data: ", part1(sample))
 print("Part 1, real data: ", part1(data))
+
+sample = dataArray(fromHeredoc([[
+123 328  51 64 
+ 45 64  387 23 
+  6 98  215 314
+*   +   *   +  ]]), asStr)
+data = dataArray(fromFile("data/day6"), asStr)
 print("Part 2, sample data: ", part2(sample))
 print("Part 2, real data: ", part2(data))
