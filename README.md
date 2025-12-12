@@ -10,3 +10,6 @@ I am learning [Lua](https://www.lua.org/) from scratch, and using [ZeroBraneStud
 
 * "The operator ~= is the negation of equality." What have I done to myself?
 * "It is customary in Lua to start arrays with index 1." _What have I done to myself?!_
+  * Oh dear god, I'm starting to like 1-indexed arrays.
+* The inconsistency of block delimiters is still messing me up. It's `do`/`end`, except when it's a `function`, don't put a `do` there, the block start is implicit, also with an `if`, the block needs to start with a `then`.
+
