@@ -52,3 +52,20 @@ function dump(o)
       return tostring(o)
    end
 end
+
+-- Returns the first n such that haystack[n] is not less than needle.
+-- Assumes haystack is sorted in ascending order
+function binarysearch(haystack, needle, optional_lessthan)
+  local lessthan = optional_lessthan or function (a,b) return a<b end
+  local s = 1
+  local e = #haystack + 1
+  while s < e do
+    local mid = math.floor((s + e)/2)
+    if lessthan(haystack[mid], needle) then
+      s = mid + 1
+    else
+      e = mid
+    end
+  end
+  return s
+end
